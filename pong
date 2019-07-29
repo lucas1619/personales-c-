@@ -1,0 +1,289 @@
+#include<iostream>
+#include<conio.h>
+using namespace std;
+using namespace System;
+struct spaleta
+{
+	int posx;
+	int posy;
+	int lims = 16;
+	int limi = 64;
+};
+struct spelota
+{
+	int posx = 30;
+	int posy = 80;
+	int limsu = 16;
+	int limin = 71;
+	int limiz = 20;
+	int limde = 127;
+}lota;
+int mapa[60][120];
+int paleta[10][4];
+int pelota[3][3];
+void gotoxy(int x, int y) {
+	Console::SetCursorPosition(y, x);
+}
+void cargarmapa() {
+	for (int i = 0; i < 60; i++)
+	{
+		for (int j = 0; j < 120; j++)
+		{
+			if (i == 0 || j == 0 || i == 59 || j == 119)
+			{
+				mapa[i][j] = 1;
+			}
+			else
+			{
+				mapa[i][j] = 0;
+			}
+		}
+	}
+}
+void pintamapa() {
+	for (int i = 0; i < 60; i++)
+	{
+		for (int j = 0; j < 120; j++)
+		{
+			gotoxy(15 + i, 15 + j);
+			Console::ForegroundColor = ConsoleColor(mapa[i][j]);
+			cout << char(219);
+		}
+	}
+}
+void cargapaleta() {
+	for (int i = 0; i < 10; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			paleta[i][j] = 2;
+		}
+	}
+}
+void pintapaletas(int opcion, int posx, int posy) {
+	if (opcion == 1)
+	{
+		for (int i = 0; i < 10; i++)
+		{
+			for (int j = 0; j < 4; j++)
+			{
+				gotoxy(posx + i, posy + j);
+				Console::ForegroundColor = ConsoleColor(paleta[i][j]);
+				cout << char(219);
+			}
+		}
+	}
+	if (opcion == 2)
+	{
+		for (int i = 0; i < 10; i++)
+		{
+			for (int j = 0; j < 4; j++)
+			{
+				gotoxy(18 + i, 16 + j);
+				Console::ForegroundColor = ConsoleColor(paleta[i][j]);
+				cout << char(219);
+			}
+		}
+		for (int i = 0; i < 10; i++)
+		{
+			for (int j = 0; j < 4; j++)
+			{
+				gotoxy(62 + i, 130 + j);
+				Console::ForegroundColor = ConsoleColor(paleta[i][j]);
+				cout << char(219);
+			}
+		}
+	}
+	
+}
+void cargarpelota() {
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			pelota[i][j] = 5;
+		}
+	}
+}
+void pintarpelota(int posx, int posy) {
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			gotoxy(posx + i, posy + j);
+			Console::ForegroundColor = ConsoleColor(pelota[i][j]);
+			cout << char(219);
+		}
+	}
+}
+void borrar(int filas, int columnas, int posx, int posy) {
+	for (int i = 0; i < filas; i++)
+	{
+		for (int j = 0; j < columnas; j++)
+		{
+			gotoxy(posx + i, posy + j);
+			cout << char(0);
+		}
+	}
+}
+void main() {
+	Console::SetWindowSize(150, 80);
+	Console::CursorVisible = false;
+	spaleta humano;
+	spaleta pc;
+	humano.posx = 18;
+	humano.posy = 16;
+	pc.posx = 62;
+	pc.posy = 130;
+	char tecla;
+	bool arriba = true;
+	bool parriba, pabajo = true, pizquierda = true, pderecha;
+	cargarmapa();
+	pintamapa();
+	cargapaleta();
+	pintapaletas(2, 0, 0);
+	cargarpelota();
+	pintarpelota(lota.posx, lota.posy);
+	while (true)
+	{
+		gotoxy(3, 20);
+		cout << humano.posx;
+		if (parriba == true && pderecha == true)
+		{
+			borrar(3, 3, lota.posx, lota.posy);
+			lota.posx--;
+			lota.posy++;
+			if (lota.posx < lota.limsu)
+			{
+				lota.posx = lota.limsu;
+				parriba = false;
+				pabajo = true;
+			}
+			if ((humano.posy + 4 >= lota.posy && humano.posy + 1 <= lota.posy + 3) && (humano.posx + 10 >= lota.posx && humano.posx <= lota.posx + 3) ||
+				(pc.posy + 4 >= lota.posy && pc.posy + 1 <= lota.posy + 3) && (pc.posx + 10 >= lota.posx && pc.posx <= lota.posx + 3))
+			{
+				lota.posy = lota.limde;
+				pderecha = false;
+				pizquierda = true;
+			}
+			pintarpelota(lota.posx, lota.posy);
+		}
+		if (parriba == true && pizquierda == true)
+		{
+			borrar(3, 3, lota.posx, lota.posy);
+			lota.posx--;
+			lota.posy--;
+			if (lota.posx < lota.limsu)
+			{
+				lota.posx = lota.limsu;
+				parriba = false;
+				pabajo = true;
+			}
+			if ((humano.posy + 4 >= lota.posy && humano.posy + 1 <= lota.posy + 3) && (humano.posx + 10 >= lota.posx && humano.posx <= lota.posx + 3) || 
+				(pc.posy + 4 >= lota.posy && pc.posy + 1 <= lota.posy + 3) && (pc.posx + 10 >= lota.posx && pc.posx <= lota.posx + 3))
+			{
+				lota.posy = lota.limiz;
+				pderecha = true;
+				pizquierda = false;
+			}
+			pintarpelota(lota.posx, lota.posy);
+		}
+		if (pabajo == true && pderecha == true)
+		{
+			borrar(3, 3, lota.posx, lota.posy);
+			lota.posx++;
+			lota.posy++;
+			if (lota.posx>lota.limin)
+			{
+				lota.posx = lota.limin;
+				pabajo = false;
+				parriba = true;
+			}
+			if ((humano.posy + 4 >= lota.posy && humano.posy + 1 <= lota.posy + 3) && (humano.posx + 10 >= lota.posx && humano.posx <= lota.posx + 3) || 
+				(pc.posy + 4 >= lota.posy && pc.posy + 1 <= lota.posy + 3) && (pc.posx + 10 >= lota.posx && pc.posx <= lota.posx + 3))
+			{
+				lota.posy = lota.limde;
+				pderecha = false;
+				pizquierda = true;
+			}
+			pintarpelota(lota.posx, lota.posy);
+		}
+		if (pabajo == true && pizquierda == true)
+		{
+			borrar(3, 3, lota.posx, lota.posy);
+			lota.posx++;
+			lota.posy--;
+			if (lota.posx>lota.limin)
+			{
+				lota.posx = lota.limin;
+				pabajo = false;
+				parriba = true;
+			}
+			if ((humano.posy + 4 >= lota.posy && humano.posy + 1 <= lota.posy + 3) && (humano.posx + 10 >= lota.posx && humano.posx <= lota.posx + 3) || 
+				(pc.posy + 4 >= lota.posy && pc.posy + 1 <= lota.posy + 3) && (pc.posx + 10 >= lota.posx && pc.posx <= lota.posx + 3))
+			{
+				lota.posy = lota.limiz;
+				pderecha = true;
+				pizquierda = false;
+			}
+			pintarpelota(lota.posx, lota.posy);
+		}
+		if (arriba)
+		{
+			borrar(10, 4, pc.posx, pc.posy);
+			pc.posx--;
+			if (pc.posx < pc.lims)
+			{
+				pc.posx = pc.lims;
+				arriba = false;
+			}
+			pintapaletas(1, pc.posx, pc.posy);
+			_sleep(20);
+		}
+		else 
+		{
+			borrar(10, 4, pc.posx, pc.posy);
+			pc.posx++;
+			if (pc.posx > pc.limi)
+			{
+				pc.posx = pc.limi;
+				arriba = true;
+			}
+			pintapaletas(1, pc.posx, pc.posy);
+			_sleep(20);
+		}
+		if (pc.posx + 4 < lota.posx + 1)
+		{
+			arriba = false;
+		}
+		else
+		{
+			arriba = true;
+		}
+		if (_kbhit())
+		{
+			tecla = _getch();
+			if (tecla == 's')
+			{
+				borrar(10, 4, humano.posx, humano.posy);
+				humano.posx++;
+				if (humano.posx > humano.limi)
+				{
+					humano.posx = humano.limi;
+				}
+				pintapaletas(1, humano.posx, humano.posy);
+			}
+			if (tecla == 'w')
+			{
+				borrar(10, 4, humano.posx, humano.posy);
+				humano.posx--;
+				if (humano.posx < humano.lims)
+				{
+					humano.posx = humano.lims;
+				}
+				pintapaletas(1, humano.posx, humano.posy);
+			}
+		}
+	}
+	system("pause");
+}
