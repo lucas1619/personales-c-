@@ -1,0 +1,14 @@
+﻿  Source.cpp
+c:\users\lucas\desktop\juego final final\juego final final\juego final final\gameover.h(98): warning C4309: 'inicializando': truncamiento de valor constante
+Source.cpp(196): warning C4309: 'inicializando': truncamiento de valor constante
+Source.cpp(325): warning C4996: '_sleep': This function or variable has been superceded by newer library or operating system functionality. Consider using Sleep instead. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\stdlib.h(1266): note: vea la declaración de '_sleep'
+Source.cpp(328): warning C4996: '_sleep': This function or variable has been superceded by newer library or operating system functionality. Consider using Sleep instead. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\stdlib.h(1266): note: vea la declaración de '_sleep'
+Source.cpp(335): warning C4996: '_sleep': This function or variable has been superceded by newer library or operating system functionality. Consider using Sleep instead. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\stdlib.h(1266): note: vea la declaración de '_sleep'
+Source.cpp(338): warning C4996: '_sleep': This function or variable has been superceded by newer library or operating system functionality. Consider using Sleep instead. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\stdlib.h(1266): note: vea la declaración de '_sleep'
+  Source.obj : /DEBUG:FASTLINK no se admite cuando hay presente código administrado; reiniciando vínculo con /DEBUG:FULL
+  juego final final.vcxproj -> C:\Users\LUCAS\Desktop\juego final final\juego final final\Debug\juego final final.exe
+  juego final final.vcxproj -> C:\Users\LUCAS\Desktop\juego final final\juego final final\Debug\juego final final.pdb (Partial PDB)
