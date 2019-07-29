@@ -1,0 +1,400 @@
+#include<iostream>
+#include<conio.h>
+using namespace std;
+using namespace System;
+struct pac
+{
+	int posx = 1;
+	int posy = 1;
+	bool derecha;
+	bool arriba;
+	bool izquierda;
+	bool abajo;
+}pacman;
+struct fantasma
+{
+	int posx = 11;
+	int posy = 13;
+	int dir = 1;
+	bool derecha;
+	bool arriba;
+	bool izquierda;
+	bool abajo;
+}rojito[4];
+char mapa[31][28] = {
+	{ 219,219,219,219,219,219,219,219,219,219,219,219,219,219,219,219,219,219,219,219,219,219,219,219,219,219,219,219 },
+	{ 219,' ','.','.','.','.','.','.','.','.','.','.','.',219,219,'.','.','.','.','.','.','.','.','.','.','.','.',219 },
+	{ 219,'.',219,219,219,219,'.',219,219,219,219,219,'.',219,219,'.',219,219,219,219,219,'.',219,219,219,219,'.',219 },
+	{ 219,'.',219,219,219,219,'.',219,219,219,219,219,'.',219,219,'.',219,219,219,219,219,'.',219,219,219,219,'.',219 },
+	{ 219,'.',219,219,219,219,'.',219,219,219,219,219,'.',219,219,'.',219,219,219,219,219,'.',219,219,219,219,'.',219 },
+	{ 219,'.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.',219 },
+	{ 219,'.',219,219,219,219,'.',219,219,'.',219,219,219,219,219,219,219,219,'.',219,219,'.',219,219,219,219,'.',219 },
+	{ 219,'.',219,219,219,219,'.',219,219,'.',219,219,219,219,219,219,219,219,'.',219,219,'.',219,219,219,219,'.',219 },
+	{ 219,'.','.','.','.','.','.',219,219,'.','.','.','.',219,219,'.','.','.','.',219,219,'.','.','.','.','.','.',219 },
+	{ 219,219,219,219,219,219,'.',219,219,219,219,219,'.',219,219,'.',219,219,219,219,219,'.',219,219,219,219,219,219 },
+	{ 219,219,219,219,219,219,'.',219,219,219,219,219,'.',219,219,'.',219,219,219,219,219,'.',219,219,219,219,219,219 },
+	{ 219,219,219,219,219,219,'.',219,219,'.','.','.','.','.','.','.','.','.','.',219,219,'.',219,219,219,219,219,219 },
+	{ 219,219,219,219,219,219,'.',219,219,'.',219,219,219,219,219,219,219,219,'.',219,219,'.',219,219,219,219,219,219 },
+	{ 219,219,219,219,219,219,'.',219,219,'.',219,' ',' ',' ',' ',' ',' ',219,'.',219,219,'.',219,219,219,219,219,219 },
+	{ 219,'.','.','.','.','.','.','.','.','.',219,' ',' ',' ',' ',' ',' ',219,'.','.','.','.','.','.','.','.','.',219 },
+	{ 219,219,219,219,219,219,'.',219,219,'.',219,' ',' ',' ',' ',' ',' ',219,'.',219,219,'.',219,219,219,219,219,219 },
+	{ 219,219,219,219,219,219,'.',219,219,'.',219,219,219,219,219,219,219,219,'.',219,219,'.',219,219,219,219,219,219 },
+	{ 219,219,219,219,219,219,'.',219,219,'.','.','.','.','.','.','.','.','.','.',219,219,'.',219,219,219,219,219,219 },
+	{ 219,219,219,219,219,219,'.',219,219,'.',219,219,219,219,219,219,219,219,'.',219,219,'.',219,219,219,219,219,219 },
+	{ 219,219,219,219,219,219,'.',219,219,'.',219,219,219,219,219,219,219,219,'.',219,219,'.',219,219,219,219,219,219 },
+	{ 219,'.','.','.','.','.','.','.','.','.','.','.','.',219,219,'.','.','.','.','.','.','.','.','.','.','.','.',219 },
+	{ 219,'.',219,219,219,219,'.',219,219,219,219,219,'.',219,219,'.',219,219,219,219,219,'.',219,219,219,219,'.',219 },
+	{ 219,'.',219,219,219,219,'.',219,219,219,219,219,'.',219,219,'.',219,219,219,219,219,'.',219,219,219,219,'.',219 },
+	{ 219,'.','.','.',219,219,'.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.',219,219,'.','.','.',219 },
+	{ 219,219,219,'.',219,219,'.',219,219,'.',219,219,219,219,219,219,219,219,'.',219,219,'.',219,219,'.',219,219,219 },
+	{ 219,219,219,'.',219,219,'.',219,219,'.',219,219,219,219,219,219,219,219,'.',219,219,'.',219,219,'.',219,219,219 },
+	{ 219,'.','.','.','.','.','.',219,219,'.','.','.','.',219,219,'.','.','.','.',219,219,'.','.','.','.','.','.',219 },
+	{ 219,'.',219,219,219,219,219,219,219,219,219,219,'.',219,219,'.',219,219,219,219,219,219,219,219,219,219,'.',219 },
+	{ 219,'.',219,219,219,219,219,219,219,219,219,219,'.',219,219,'.',219,219,219,219,219,219,219,219,219,219,'.',219 },
+	{ 219,'.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.',219 },
+	{ 219,219,219,219,219,219,219,219,219,219,219,219,219,219,219,219,219,219,219,219,219,219,219,219,219,219,219,219 } };
+int mapa1[31][28] = {
+	{ 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 },
+	{ 1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1 },
+	{ 1,0,1,1,1,1,0,1,1,1,1,1,0,1,1,0,1,1,1,1,1,0,1,1,1,1,0,1 },
+	{ 1,0,1,1,1,1,0,1,1,1,1,1,0,1,1,0,1,1,1,1,1,0,1,1,1,1,0,1 },
+	{ 1,0,1,1,1,1,0,1,1,1,1,1,0,1,1,0,1,1,1,1,1,0,1,1,1,1,0,1 },
+	{ 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1 },
+	{ 1,0,1,1,1,1,0,1,1,0,1,1,1,1,1,1,1,1,0,1,1,0,1,1,1,1,0,1 },
+	{ 1,0,1,1,1,1,0,1,1,0,1,1,1,1,1,1,1,1,0,1,1,0,1,1,1,1,0,1 },
+	{ 1,0,0,0,0,0,0,1,1,0,0,0,0,1,1,0,0,0,0,1,1,0,0,0,0,0,0,1 },
+	{ 1,1,1,1,1,1,0,1,1,1,1,1,0,1,1,0,1,1,1,1,1,0,1,1,1,1,1,1 },
+	{ 1,1,1,1,1,1,0,1,1,1,1,1,0,1,1,0,1,1,1,1,1,0,1,1,1,1,1,1 },
+	{ 1,1,1,1,1,1,0,1,1,0,0,0,0,0,0,0,0,0,0,1,1,0,1,1,1,1,1,1 },
+	{ 1,1,1,1,1,1,0,1,1,0,1,1,1,1,1,1,1,1,0,1,1,0,1,1,1,1,1,1 },
+	{ 1,1,1,1,1,1,0,1,1,0,1,0,0,0,0,0,0,1,0,1,1,0,1,1,1,1,1,1 },
+	{ 1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1 },
+	{ 1,1,1,1,1,1,0,1,1,0,1,0,0,0,0,0,0,1,0,1,1,0,1,1,1,1,1,1 },
+	{ 1,1,1,1,1,1,0,1,1,0,1,1,1,1,1,1,1,1,0,1,1,0,1,1,1,1,1,1 },
+	{ 1,1,1,1,1,1,0,1,1,0,0,0,0,0,0,0,0,0,0,1,1,0,1,1,1,1,1,1 },
+	{ 1,1,1,1,1,1,0,1,1,0,1,1,1,1,1,1,1,1,0,1,1,0,1,1,1,1,1,1 },
+	{ 1,1,1,1,1,1,0,1,1,0,1,1,1,1,1,1,1,1,0,1,1,0,1,1,1,1,1,1 },
+	{ 1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1 },
+	{ 1,0,1,1,1,1,0,1,1,1,1,1,0,1,1,0,1,1,1,1,1,0,1,1,1,1,0,1 },
+	{ 1,0,1,1,1,1,0,1,1,1,1,1,0,1,1,0,1,1,1,1,1,0,1,1,1,1,0,1 },
+	{ 1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,1 },
+	{ 1,1,1,0,1,1,0,1,1,0,1,1,1,1,1,1,1,1,0,1,1,0,1,1,0,1,1,1 },
+	{ 1,1,1,0,1,1,0,1,1,0,1,1,1,1,1,1,1,1,0,1,1,0,1,1,0,1,1,1 },
+	{ 1,0,0,0,0,0,0,1,1,0,0,0,0,1,1,0,0,0,0,1,1,0,0,0,0,0,0,1 },
+	{ 1,0,1,1,1,1,1,1,1,1,1,1,0,1,1,0,1,1,1,1,1,1,1,1,1,1,0,1 },
+	{ 1,0,1,1,1,1,1,1,1,1,1,1,0,1,1,0,1,1,1,1,1,1,1,1,1,1,0,1 },
+	{ 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1 },
+	{ 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 } };
+void gotoxy(int x, int y) {
+	Console::SetCursorPosition(y, x);
+}
+bool puntaje(int posx, int posy) {
+	if (mapa[posx][posy] == '.')
+	{
+		mapa[posx][posy] = 0;
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+void main() {
+	Console::CursorVisible = false;
+	int num = 0, arriba = 0;
+	char tecla;
+	bool choque = false;
+	Random v;
+	for (int i = 0; i < 31; i++)
+	{
+		for (int j = 0; j < 28; j++)
+		{
+			gotoxy(i, j);
+			Console::ForegroundColor = ConsoleColor::Red;
+			cout << mapa[i][j];
+		}
+	}
+	Console::ForegroundColor = ConsoleColor::Yellow;
+	gotoxy(pacman.posx, pacman.posy);
+	cout << "*";
+	for (int i = 0; i < 4; i++)
+	{
+		Console::ForegroundColor = ConsoleColor::Blue;
+		gotoxy(rojito[i].posx, rojito[i].posy);
+		cout << "*";
+	}
+	while (choque != true)
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			if (rojito[i].dir == 1)
+			{
+				rojito[i].arriba = true;
+				rojito[i].derecha = false;
+				rojito[i].abajo = false;
+				rojito[i].izquierda = false;
+			}
+			if (rojito[i].dir == 2)
+			{
+				rojito[i].arriba = false;
+				rojito[i].derecha = true;
+				rojito[i].abajo = false;
+				rojito[i].izquierda = false;
+			}
+			if (rojito[i].dir == 3)
+			{
+				rojito[i].arriba = false;
+				rojito[i].derecha = false;
+				rojito[i].abajo = true;
+				rojito[i].izquierda = false;
+			}
+			if (rojito[i].dir == 4)
+			{
+				rojito[i].arriba = false;
+				rojito[i].derecha = false;
+				rojito[i].abajo = false;
+				rojito[i].izquierda = true;
+			}
+			if (rojito[i].derecha == true && mapa1[rojito[i].posx][rojito[i].posy + 1] == 0)
+			{
+				gotoxy(rojito[i].posx, rojito[i].posy);
+				cout << " ";
+				rojito[i].posy++;
+				Console::ForegroundColor = ConsoleColor::Blue;
+				gotoxy(rojito[i].posx, rojito[i].posy);
+				cout << "*";
+				if (mapa[rojito[i].posx][rojito[i].posy - 1] == '.')
+				{
+					gotoxy(rojito[i].posx, rojito[i].posy - 1);
+					Console::ForegroundColor = ConsoleColor::Red;
+					cout << '.';
+				}
+				if (rojito[i].posx == pacman.posx && rojito[i].posy == pacman.posy)
+				{
+					choque = true;
+				}
+			}
+			if (rojito[i].izquierda == true && mapa1[rojito[i].posx][rojito[i].posy - 1] == 0)
+			{
+				gotoxy(rojito[i].posx, rojito[i].posy);
+				cout << " ";
+				rojito[i].posy--;
+				Console::ForegroundColor = ConsoleColor::Blue;
+				gotoxy(rojito[i].posx, rojito[i].posy);
+				cout << "*";
+				if (mapa[rojito[i].posx][rojito[i].posy + 1] == '.')
+				{
+					gotoxy(rojito[i].posx, rojito[i].posy + 1);
+					Console::ForegroundColor = ConsoleColor::Red;
+					cout << '.';
+				}
+				if (rojito[i].posx == pacman.posx && rojito[i].posy == pacman.posy)
+				{
+					choque = true;
+				}
+			}
+			if (rojito[i].arriba == true && mapa1[rojito[i].posx - 1][rojito[i].posy] == 0)
+			{
+				gotoxy(rojito[i].posx, rojito[i].posy);
+				cout << " ";
+				rojito[i].posx--;
+				Console::ForegroundColor = ConsoleColor::Blue;
+				gotoxy(rojito[i].posx, rojito[i].posy);
+				cout << "*";
+				if (mapa[rojito[i].posx + 1][rojito[i].posy] == '.')
+				{
+					gotoxy(rojito[i].posx + 1, rojito[i].posy);
+					Console::ForegroundColor = ConsoleColor::Red;
+					cout << '.';
+				}
+				if (rojito[i].posx == pacman.posx && rojito[i].posy == pacman.posy)
+				{
+					choque = true;
+				}
+			}
+			if (rojito[i].abajo == true && mapa1[rojito[i].posx + 1][rojito[i].posy] == 0)
+			{
+				gotoxy(rojito[i].posx, rojito[i].posy);
+				cout << " ";
+				rojito[i].posx++;
+				Console::ForegroundColor = ConsoleColor::Blue;
+				gotoxy(rojito[i].posx, rojito[i].posy);
+				cout << "*";
+				if (mapa[rojito[i].posx - 1][rojito[i].posy] == '.')
+				{
+					gotoxy(rojito[i].posx - 1, rojito[i].posy);
+					Console::ForegroundColor = ConsoleColor::Red;
+					cout << '.';
+				}
+				if (rojito[i].posx == pacman.posx && rojito[i].posy == pacman.posy)
+				{
+					choque = true;
+				}
+			}
+			if (rojito[i].dir == 1 && mapa1[rojito[i].posx - 1][rojito[i].posy] == 1)
+			{
+				rojito[i].dir = v.Next(1, 5);
+				arriba++;
+				if (arriba == 1)
+				{
+					mapa1[4][10] = 1;
+					mapa1[4][11] = 1;
+				}
+			}
+			if (rojito[i].dir == 2 && mapa1[rojito[i].posx][rojito[i].posy + 1] == 1)
+			{
+				rojito[i].dir = v.Next(1, 5);
+			}
+			if (rojito[i].dir == 3 && mapa1[rojito[i].posx + 1][rojito[i].posy] == 1)
+			{
+				rojito[i].dir = v.Next(1, 5);
+			}
+			if (rojito[i].dir == 4 && mapa1[rojito[i].posx][rojito[i].posy - 1] == 1)
+			{
+				rojito[i].dir = v.Next(1, 5);
+			}
+		}
+		if (pacman.derecha == true && mapa1[pacman.posx][pacman.posy + 1] == 0)
+		{
+			gotoxy(pacman.posx, pacman.posy);
+			cout << " ";
+			pacman.posy++;
+			Console::ForegroundColor = ConsoleColor::Yellow;
+			gotoxy(pacman.posx, pacman.posy);
+			cout << "*";
+			if (puntaje(pacman.posx, pacman.posy))
+			{
+				num++;
+			}
+			for (int i = 0; i < 4; i++)
+			{
+				if (rojito[i].posx == pacman.posx && rojito[i].posy == pacman.posy)
+				{
+					choque = true;
+				}
+			}
+		}
+		if (pacman.izquierda == true && mapa1[pacman.posx][pacman.posy - 1] == 0)
+		{
+			gotoxy(pacman.posx, pacman.posy);
+			cout << " ";
+			pacman.posy--;
+			Console::ForegroundColor = ConsoleColor::Yellow;
+			gotoxy(pacman.posx, pacman.posy);
+			cout << "*";
+			if (puntaje(pacman.posx, pacman.posy))
+			{
+				num++;
+			}
+			for (int i = 0; i < 4; i++)
+			{
+				if (rojito[i].posx == pacman.posx && rojito[i].posy == pacman.posy)
+				{
+					choque = true;
+				}
+			}
+		}
+		if (pacman.arriba == true && mapa1[pacman.posx - 1][pacman.posy] == 0)
+		{
+			gotoxy(pacman.posx, pacman.posy);
+			cout << " ";
+			pacman.posx--;
+			Console::ForegroundColor = ConsoleColor::Yellow;
+			gotoxy(pacman.posx, pacman.posy);
+			cout << "*";
+			if (puntaje(pacman.posx, pacman.posy))
+			{
+				num++;
+			}
+			for (int i = 0; i < 4; i++)
+			{
+				if (rojito[i].posx == pacman.posx && rojito[i].posy == pacman.posy)
+				{
+					choque = true;
+				}
+			}
+		}
+		if (pacman.abajo == true && mapa1[pacman.posx + 1][pacman.posy] == 0)
+		{
+			gotoxy(pacman.posx, pacman.posy);
+			cout << " ";
+			pacman.posx++;
+			Console::ForegroundColor = ConsoleColor::Yellow;
+			gotoxy(pacman.posx, pacman.posy);
+			cout << "*";
+			if (puntaje(pacman.posx, pacman.posy))
+			{
+				num++;
+			}
+			for (int i = 0; i < 4; i++)
+			{
+				if (rojito[i].posx == pacman.posx && rojito[i].posy == pacman.posy)
+				{
+					choque = true;
+				}
+			}
+		}
+		if (_kbhit())
+		{
+			tecla = _getch();
+			if (tecla == 'd' || tecla == 'D')
+			{
+				if (mapa1[pacman.posx][pacman.posy + 1] == 0)
+				{
+					pacman.derecha = true;
+					pacman.abajo = false;
+					pacman.arriba = false;
+					pacman.izquierda = false;
+				}
+			}
+			if (tecla == 's' || tecla == 'S')
+			{
+				if (mapa1[pacman.posx + 1][pacman.posy] != 1)
+				{
+					pacman.abajo = true;
+					pacman.derecha = false;
+					pacman.arriba = false;
+					pacman.izquierda = false;
+				}
+			}
+			if (tecla == 'W' || tecla == 'w')
+			{
+				if (mapa1[pacman.posx - 1][pacman.posy] != 1)
+				{
+					pacman.arriba = true;
+					pacman.derecha = false;
+					pacman.abajo = false;
+					pacman.izquierda = false;
+				}
+			}
+			if (tecla == 'a' || tecla == 'A')
+			{
+				if (mapa1[pacman.posx][pacman.posy - 1] != 1)
+				{
+					pacman.izquierda = true;
+					pacman.derecha = false;
+					pacman.abajo = false;
+					pacman.arriba = false;
+				}
+			}
+		}
+		Console::ForegroundColor = ConsoleColor::Yellow;
+		gotoxy(5, 40);
+		cout << num;
+		_sleep(150);
+		if (num == 297)
+		{
+			break;
+		}
+	}
+	system("CLS");
+	if (num == 297)
+	{
+		cout << "FELICIDADES GANASTE!";
+	}
+	else
+	{
+		cout << "PERDISTE, VUELVE A INTENTARLO";
+	}
+	system("pause>NULL");
+}
