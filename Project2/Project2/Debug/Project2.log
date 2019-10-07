@@ -1,0 +1,4 @@
+﻿  Source.cpp
+  Source.obj : /DEBUG:FASTLINK no se admite cuando hay presente código administrado; reiniciando vínculo con /DEBUG:FULL
+  Project2.vcxproj -> C:\Users\LUCAS\Desktop\Project2\Debug\Project2.exe
+  Project2.vcxproj -> C:\Users\LUCAS\Desktop\Project2\Debug\Project2.pdb (Partial PDB)
